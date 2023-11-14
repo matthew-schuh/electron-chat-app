@@ -1,1 +1,1 @@
-# electron-chat-app
+# Electron Chat App
