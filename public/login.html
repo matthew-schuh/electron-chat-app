@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Electron Chat App | Login</title>
+
+        <link type="text/css" rel="stylesheet" href="lib/bootstrap/bootstrap.min.css">
+        <link type="text/css" rel="stylesheet" href="css/login.css">
+    </head>
+    <body>
+        <form id="phone-number-form">
+            <div class="signup-logo">
+                <img class="fullsize-image" src="img/vama-desktop-signup-outline.svg">
+            </div>
+            <fieldset>
+                <legend>What's your Phone Number?</legend>
+                <input type="text" id="phone-number-input" name="phone-number" placeholder="Phone Number" pattern="[0-9]{3}[-]?[0-9]{3}[-]?[0-9]{4}" required>
+            </fieldset>
+            <input type="submit" value="Next">
+        </form>
+    </body>
+</html>

@@ -3,7 +3,7 @@ const app = electron.app;  // Module to control application life.
 const BrowserWindow = electron.BrowserWindow;  // Module to create native browser window.
 
 // Report crashes to our server.
-electron.crashReporter.start();
+// electron.crashReporter.start();
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -23,13 +23,13 @@ app.on('window-all-closed', function() {
 app.on('ready', function() {
   // Create the browser window and disable integration with node
   mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1024,
+    height: 720,
     nodeIntegration: false
   });
 
   // and load the index.html of the app.
-  mainWindow.loadURL('file://'   __dirname   '/public/index.html');
+  mainWindow.loadURL('file://' + __dirname + '/public/login.html');
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools();
