@@ -14,9 +14,11 @@
             </div>
             <fieldset>
                 <legend>What's your Phone Number?</legend>
-                <input type="text" id="phone-number-input" name="phone-number" placeholder="Phone Number" pattern="[0-9]{3}[-]?[0-9]{3}[-]?[0-9]{4}" required>
+                <input type="tel" class="phone-number-input" id="phone-number-input" name="phone-number" placeholder="Phone Number" pattern="[0-9]{3}[-]?[0-9]{3}[-]?[0-9]{4}" maxlength="10" required>
             </fieldset>
-            <input type="submit" value="Next">
+            <input type="submit" id="phone-number-submit-button" value="Next" disabled>
         </form>
+
+        <script src="js/login.js"></script>
     </body>
 </html>
