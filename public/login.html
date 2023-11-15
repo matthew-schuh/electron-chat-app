@@ -11,26 +11,32 @@
         <div class="signup-logo">
             <img class="fullsize-image" src="img/vama-desktop-signup-outline.svg">
         </div>
-        <form id="phone-number-form">
-            <fieldset>
-                <legend>What's your Phone Number?</legend>
-                <input type="tel" class="phone-number-input" id="phone-number-input" name="phone-number" placeholder="Phone Number" pattern="[0-9]{3}[-]?[0-9]{3}[-]?[0-9]{4}" maxlength="10" required>
-            </fieldset>
-            <input type="submit" id="phone-number-submit-button" value="Next" disabled>
-        </form>
-        <form id="phone-code-form">
-            <h3 id="phone-number-label"></h3>
-            <p>We have sent you an SMS with the code</p>
-            <input type="number" id="phone-code-input" name="phone-code" placeholder="Code" pattern="[0-9]{6}" maxlength="6">
-            <input type="submit" id="phone-code-submit-button" value="Next" disabled>
-        </form>
-        <form id="name-form">
-            <h3>What's your Full Name?</h3>
-            <input type="text" id="first-name-input" name="first-name" placeholder="Name" maxlength="255">
-            <input type="text" id="last-name-input" name="last-name" placeholder="Last Name" maxlength="255">
-            <input type="submit" id="name-submit-button" value="Next" disabled>
-        </form>
-
+        <div id="form-container" class="form-container">
+            <form id="phone-number-form" class="active">
+                <fieldset>
+                    <legend>What's your Phone Number?</legend>
+                    <input type="tel" class="phone-number-input" id="phone-number-input" name="phone-number" placeholder="Phone Number" pattern="[0-9]{3}[-]?[0-9]{3}[-]?[0-9]{4}" maxlength="10" required>
+                    <select id="phone-country-code-select" name="phone-country-code-select">
+                        <option value="usa" selected>+1</option>
+                        <option value="afghanistan">+93</option>
+                        <option value="albania">+355</option>
+                    </select>
+                </fieldset>
+                <input type="submit" id="phone-number-submit-button" value="Next" disabled>
+            </form>
+            <form id="phone-code-form">
+                <h3 id="phone-number-label"></h3>
+                <p>We have sent you an SMS with the code</p>
+                <input type="text" id="phone-code-input" name="phone-code" placeholder="Code" pattern="[0-9]{6}" maxlength="6">
+                <input type="submit" id="phone-code-submit-button" value="Next" disabled>
+            </form>
+            <form id="name-form">
+                <h3>What's your Full Name?</h3>
+                <input type="text" id="first-name-input" name="first-name" placeholder="Name" maxlength="255">
+                <input type="text" id="last-name-input" name="last-name" placeholder="Last Name" maxlength="255">
+                <input type="submit" id="name-submit-button" value="Next" disabled>
+            </form>
+        </div>
         <script src="js/login.js"></script>
     </body>
 </html>

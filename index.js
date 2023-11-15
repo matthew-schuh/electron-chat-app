@@ -37,13 +37,16 @@ app.on('ready', function() {
   });
 });
 
-ipcMain.on('savePhoneNumber', savePhoneNumber);
-ipcMain.on('getPhoneNumber', getPhoneNumber);
+ipcMain.on('storeUserInfo', storeUserInfo);
 
-function savePhoneNumber(phoneNumber) {
-  storage.set('phoneNumber', phoneNumber);
-}
-
-function getPhoneNumber() {
-  ipcMain.send('getPhoneNumber', storage.getSync('phoneNumber'));
+// TODO add validation here.
+// User info should contain a valid phone number, country code (e.g. +1),
+// first name, and last name. Should be a json string.
+function storeUserInfo(userInfo) {
+  if (typeof userInfo === 'string') {
+    userInfo = JSON.parse(userInfo);
+  }
+  storage.set('userSessionInfo', userInfo, () => {
+    ipcMain.send('userInfoSaved');
+  });
 }

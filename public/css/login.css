@@ -7,17 +7,39 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-form {
-    position: relative;
-    margin: 120px auto;
-    width: 300px;
+.hidden {
+    display: none !important;
+    visibility: hidden !important;
 }
 
-form .signup-logo {
+.form-container {
+    position: relative;
+    width: 340px;
+    margin: 0 auto;
+    mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 1) 20px, rgba(0, 0, 0, 1) calc(100% - 20px), rgba(0, 0, 0, 0) 100%);
+    -webkit-mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 1) 20px, rgba(0, 0, 0, 1) calc(100% - 20px), rgba(0, 0, 0, 0) 100%);
+}
+
+form {
+    position: absolute;
+    top: 0;
+    left: 20px;
+    width: 300px;
+    transform: translateX(110%);
+    transition: transform 0.25s ease-in-out;
+}
+form.active {
+    transform: translateX(0);
+}
+form.filled {
+    transform: translateX(-110%);
+}
+
+.signup-logo {
     width: 266px;
     height: 266px;
-    margin: 0 17px;
     position: relative;
+    margin: 120px auto 0 auto;
 }
 
 label,
@@ -38,7 +60,8 @@ fieldset {
 }
 
 input[type=text],
-input[type=tel] {
+input[type=tel],
+input[type=number] {
     font-family: 'SF Pro', sans-serif;
     font-size: 14px;
     line-height: 18px;
@@ -50,6 +73,7 @@ input[type=tel] {
     height: 44px;
     border: 1px solid #E5E5EA;
     border-radius: 10px;
+    padding-left: 10px;
 }
 
 input[type=submit] {
@@ -83,6 +107,17 @@ input[type=submit]:disabled {
     opacity: 0.75;
     background-color: #1c1c1e;
     transform: none;
+}
+
+#phone-number-form select {
+    position: absolute;
+    left: 4px;
+    width: 44px;
+    height: 36px;
+    border-radius: 10px;
+    -webkit-appearance: none;
+    transform: translateY(calc(-100% - 4px));
+    text-align-last: center;
 }
 
 img.fullsize-image {
