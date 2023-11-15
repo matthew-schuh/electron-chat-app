@@ -1,7 +1,25 @@
+const ipcRenderer = require('electron').ipcRenderer;
+
+const phoneInputForm = document.getElementById('phone-input-form');
 const phoneInput = document.getElementById('phone-number-input');
 const submitButton = document.getElementById('phone-number-submit-button');
 
+phoneInputForm.onsubmit = onPhoneInputFormSubmit;
 phoneInput.oninput = onPhoneInput;
+
+// Validate and submit the form.
+function onPhoneInputFormSubmit() {
+    // TODO cover form and show spinning logo.
+    // TODO disable submit button.
+    // Note - this check is used to ensure phoneInput.value hasn't been tampered
+    // with without triggering oninput.
+    if (isCompletePhoneNumber(phoneInput.value)) {
+        ipcRenderer.send('savePhoneNumber', phoneInput.value);
+    } else {
+        // TODO show validation error for phone number.
+        return false;
+    }
+}
 
 // Enable submit button if valid/complete phone number is entered.
 function onPhoneInput() {
@@ -26,11 +44,9 @@ function isCompletePhoneNumber(val) {
 }
 
 function enableSubmitButton() {
-    // TODO
     submitButton.disabled = false;
 }
 
 function disableSubmitButton() {
-    // TODO
     submitButton.disabled = true;
 }

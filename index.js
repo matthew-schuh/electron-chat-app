@@ -1,34 +1,28 @@
-const electron = require('electron');
-const app = electron.app;  // Module to control application life.
-const BrowserWindow = electron.BrowserWindow;  // Module to create native browser window.
+const {app, BrowserWindow, ipcMain} = require('electron'); // Modules to control app, create BrowserWindows, and ipc communication.
+const storage = require('electron-json-storage'); // Handles storing/loading data from persistent storage.
 
-// Report crashes to our server.
-// electron.crashReporter.start();
-
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
+// Keep a global reference of the window object to prevent GC.
 var mainWindow = null;
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function() {
-  // On OS X it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd   Q
+  // For OSX - keep app open until CMD + Q
+  // Other OS, close app on last window close.
   if (process.platform != 'darwin') {
     app.quit();
   }
 });
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
+// This method will be called when Electron has finished initialization.
 app.on('ready', function() {
-  // Create the browser window and disable integration with node
+  // Create the browser window and disable integration with node.
   mainWindow = new BrowserWindow({
     width: 1024,
     height: 720,
     nodeIntegration: false
   });
 
-  // and load the index.html of the app.
+  // Load the login page.
   mainWindow.loadURL('file://' + __dirname + '/public/login.html');
 
   // Open the DevTools.
@@ -42,3 +36,14 @@ app.on('ready', function() {
     mainWindow = null;
   });
 });
+
+ipcMain.on('savePhoneNumber', savePhoneNumber);
+ipcMain.on('getPhoneNumber', getPhoneNumber);
+
+function savePhoneNumber(phoneNumber) {
+  storage.set('phoneNumber', phoneNumber);
+}
+
+function getPhoneNumber() {
+  ipcMain.send('getPhoneNumber', storage.getSync('phoneNumber'));
+}
