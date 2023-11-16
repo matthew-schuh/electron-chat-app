@@ -1,5 +1,6 @@
 const {app, BrowserWindow, ipcMain} = require('electron'); // Modules to control app, create BrowserWindows, and ipc communication.
 const storage = require('electron-json-storage'); // Handles storing/loading data from persistent storage.
+const path = require('path');
 
 // Keep a global reference of the window object to prevent GC.
 var mainWindow = null;
@@ -15,11 +16,16 @@ app.on('window-all-closed', function() {
 
 // This method will be called when Electron has finished initialization.
 app.on('ready', function() {
-  // Create the browser window and disable integration with node.
+  // Create the browser window.
   mainWindow = new BrowserWindow({
     width: 1024,
     height: 720,
-    nodeIntegration: false
+    webPreferences: {
+      nodeIntegration: false,
+      contextIsolation: true,
+      enableRemoteModule: false, // Turn off remote
+      preload: path.join(__dirname, "preload.js") // Use our preload script
+    }
   });
 
   // Load the login page.
@@ -37,7 +43,10 @@ app.on('ready', function() {
   });
 });
 
-ipcMain.on('storeUserInfo', storeUserInfo);
+ipcMain.on('storeUserInfo', async (event, userInfo) => {
+  await storeUserInfo(userInfo);
+  return true;
+});
 
 // TODO add validation here.
 // User info should contain a valid phone number, country code (e.g. +1),
@@ -46,7 +55,10 @@ function storeUserInfo(userInfo) {
   if (typeof userInfo === 'string') {
     userInfo = JSON.parse(userInfo);
   }
-  storage.set('userSessionInfo', userInfo, () => {
-    ipcMain.send('userInfoSaved');
+
+  return new Promise((resolve, reject) => {
+    storage.set('userSessionInfo', userInfo, () => {
+      resolve(true);
+    });
   });
 }

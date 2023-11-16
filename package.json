@@ -11,7 +11,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "electron": "^27.1.0",
     "electron-json-storage": "^4.6.0",
-    "electron-prebuilt": "^1.4.13"
+    "electron-prebuilt": "^1.4.13",
+    "path": "^0.12.7"
   }
 }

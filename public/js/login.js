@@ -1,5 +1,3 @@
-const ipcRenderer = require('electron').ipcRenderer;
-
 const phoneNumberForm = document.getElementById('phone-number-form');
 const phoneNumberInput = document.getElementById('phone-number-input');
 const phoneCountryCodeInput = document.getElementById('phone-country-code-select');
@@ -100,8 +98,10 @@ function onNameFormSubmit() {
         // When this form is valid and submitted, we are clear to store the user session
         // information and navigate to the chat page.
         try {
-            ipcRenderer.on('userInfoSaved', goToChatPage);
-            storeUserSessionInformation();
+            (async () => {
+                await storeUserSessionInformation();
+            })();
+            goToChatPage();
         } catch (e) {
             console.error(e);
         } finally {
@@ -186,13 +186,16 @@ function isCorrectPhoneCode() {
 
 // Send the user login info (phone/name) to electron to be stored for the current "session"
 // We could use this to auto login/pre-populate forms or something similar in the future.
-function storeUserSessionInformation() {
-    ipcRenderer.send('storeUserInfo', JSON.stringify({
+async function storeUserSessionInformation() {
+    await window.api.invoke('storeUserInfo', JSON.stringify({
         phoneCountryCode: phoneCountryCodeInput.value,
         phoneNumber: phoneNumberInput.value,
         firstName: firstNameInput.value,
         lastName: lastNameInput.value
     }));
+    return new Promise((resolve) => {
+        resolve();
+    });
 }
 
 // Navigate to the chat window.
