@@ -3,8 +3,20 @@
     <head>
         <meta charset="UTF-8">
         <title>Electron Chat App | Chat</title>
+
+        <link type="text/css" rel="stylesheet" href="css/chat.css">
+        
+        <script src="lib/jquery.min.js"></script>
     </head>
     <body>
-        <h1>HELLO WORLD!</h1>
+        <div id="chat-container">
+            <aside id="chat-sidebar"></aside>
+            <div id="chat-contents">
+                <header id="chat-header"></header>
+                <div id="chat-log"></div>
+            </div>
+        </div>
+
+        <script src="js/chat.js"></script>
     </body>
 </html>

@@ -17,9 +17,10 @@ app.on('window-all-closed', function() {
 // This method will be called when Electron has finished initialization.
 app.on('ready', function() {
   // Create the browser window.
+  // TODO size this based on device screen size. Allow user to configure, and store configured size.
   mainWindow = new BrowserWindow({
-    width: 1024,
-    height: 720,
+    width: 1440,
+    height: 784,
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
@@ -46,6 +47,23 @@ app.on('ready', function() {
 ipcMain.on('storeUserInfo', async (event, userInfo) => {
   await storeUserInfo(userInfo);
   return true;
+});
+
+ipcMain.on('getChatData', async (event, sessionInfo) => {
+  // Chats are keyed by phone number, first name, and last name.
+  if (typeof sessionInfo === 'string') {
+    sessionInfo = JSON.parse(sessionInfo);
+  }
+  let sessionKey = sessionInfo.phoneCountryCode + sessionInfo.phoneNumber + sessionInfo.firstName + sessionInfo.lastName;
+  let chatData = {
+    chats: []
+  };
+  if (!storage.has(sessionKey)) {
+    storage.set(sessionKey, chatData);
+    return chatData;
+  } else {
+    return storage.getSync(sessionKey);
+  }
 });
 
 // TODO add validation here.

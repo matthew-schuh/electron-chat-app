@@ -25,6 +25,8 @@ lastNameInput.oninput = onNameInput;
 
 setFormContainerHeight();
 
+let phoneNumber, phoneCountryCode, phoneNumberFormatted, firstName, lastName;
+
 // Validate and submit the phone number form.
 function onPhoneNumberFormSubmit() {
     // TODO cover form and show spinning logo.
@@ -32,6 +34,9 @@ function onPhoneNumberFormSubmit() {
     // Note - this check is used to ensure phoneInput.value hasn't been tampered
     // with without triggering oninput.
     if (isCompletePhoneNumber(phoneNumberInput.value)) {
+        phoneNumber = phoneNumberInput.value;
+        phoneCountryCode = phoneCountryCodeInput.value;
+        phoneNumberPretty = phoneCountryCode + ' ' + prettifyPhoneNumber(phoneNumber);
         goToPhoneCodeForm();
     } else {
         // TODO show validation error for phone number.
@@ -95,9 +100,13 @@ function onNameFormSubmit() {
         valid = false;
     }
     if (valid) {
+        firstName = firstNameInput.value;
+        lastName = lastNameInput.value;
         // When this form is valid and submitted, we are clear to store the user session
         // information and navigate to the chat page.
         try {
+            // Store data and wait until it successfully saves to go to the chat page
+            // in case we need to load it from the chat page.
             (async () => {
                 await storeUserSessionInformation();
             })();
@@ -163,7 +172,7 @@ function setFormContainerHeight() {
 // the phone code form in from the right.
 function goToPhoneCodeForm() {
     // First, set phone number text displayed on form.
-    phoneNumberLabel.textContent = phoneCountryCodeInput.value + ' ' + prettifyPhoneNumber(phoneNumberInput.value);
+    phoneNumberLabel.textContent = phoneNumberPretty;
     // Then transition out old form/in new form.
     phoneNumberForm.classList.remove('active');
     phoneNumberForm.classList.add('filled');
@@ -190,12 +199,16 @@ function isCorrectPhoneCode() {
 // Send the user login info (phone/name) to electron to be stored for the current "session"
 // We could use this to auto login/pre-populate forms or something similar in the future.
 async function storeUserSessionInformation() {
-    await window.api.invoke('storeUserInfo', JSON.stringify({
+    let jsonUserSession = JSON.stringify({
         phoneCountryCode: phoneCountryCodeInput.value,
         phoneNumber: phoneNumberInput.value,
         firstName: firstNameInput.value,
         lastName: lastNameInput.value
-    }));
+    });
+    // Save to local storage.
+    localStorage.setItem('chatAppSessionInfo', jsonUserSession);
+    // Save to electron storage.
+    await window.api.invoke('storeUserInfo', jsonUserSession);
     return new Promise((resolve) => {
         resolve();
     });

@@ -14,3 +14,4 @@
 11. Style the select dropdown/scrollbar (phone country code selection), and make it fit longer country codes (e.g. 3 digit codes).
 12. Better form validation.
 13. Backend/electron data validation of user data sent in 'storeUserInfo' ipc message.
+14. Set browser window size in a better way. E.g. allow user to configure and store configured size.
