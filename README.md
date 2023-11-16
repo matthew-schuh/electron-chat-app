@@ -1,4 +1,12 @@
 # Electron Chat App
+## To run:
+1. Download the repository
+2. cd into the repository
+3. Run `npm install`
+4. Run `npm start`
+
+-- Note the app was written to the screen size of the wireframe and is not responsive. Therefore the window may need to be resized if elements appear off screen (such as the chat text box). --
+
 
 ## Things to Consider / Possible Future Additions
 1. When loading the initial page of the app, we could jump straight to the chat app if name/number have been provided. A logout button would need to be provided in this case.
