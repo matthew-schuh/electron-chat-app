@@ -4,6 +4,9 @@
 2. cd into the repository
 3. Run `npm install`
 4. Run `npm start`
+5. When the app opens, there is no phone verification so you can enter any 10 digit number.
+6. The code requires any 6 digit number.
+7. Both name fields may not be empty.
 
 -- Note the app was written to the screen size of the wireframe and is not responsive. Therefore the window may need to be resized if elements appear off screen (such as the chat text box). --
 
