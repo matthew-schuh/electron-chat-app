@@ -20,7 +20,7 @@ app.on('ready', function() {
   // TODO size this based on device screen size. Allow user to configure, and store configured size.
   mainWindow = new BrowserWindow({
     width: 1440,
-    height: 800,
+    height: 784,
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,

@@ -15,3 +15,6 @@
 12. Better form validation.
 13. Backend/electron data validation of user data sent in 'storeUserInfo' ipc message.
 14. Set browser window size in a better way. E.g. allow user to configure and store configured size.
+15. Reload chat history on user "login" - This would depend on what we consider to be user login information. Just phone number? Phone + full name?
+16. Remove all the absolute stuff (positions, sizes, etc) - this semi falls in line with being responsive.
+17. Make chat log scroll.

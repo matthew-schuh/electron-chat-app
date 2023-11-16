@@ -105,6 +105,27 @@ body {
     height: 80px;
     background-color: #f2f2f7;
 }
+
+#chat-header .user-photo {
+    width: 48px;
+    height: 48px;
+    left: 24px;
+    top: 16px;
+}
+
+#header-partner-name {
+    position: absolute;
+    top: 19px;
+    left: 88px;
+    width: 748px;
+    height: 42px;
+    font-weight: 600;
+    line-height: 42px;
+    font-size: 18px;
+    color: #1c1c1e;
+    overflow: hidden;
+}
+
 #chat-log {
     position: absolute;
     top: 0;
@@ -112,7 +133,7 @@ body {
     width: 100%;
     height: calc(100% - 72px);
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     flex-direction: column-reverse;
 }
 .chat-message {

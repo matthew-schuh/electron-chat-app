@@ -2,6 +2,8 @@ let userSessionInfo = loadSessionFromLocalStorage();
 let chatData;
 let chatSendButton = document.getElementById('chat-message-send-button');
 let chatInput = document.getElementById('chat-message');
+let headerUserPhoto = $('#header-user-photo');
+let headerPartnerName = $('#header-partner-name');
 let userIsCurrentMessage = true;
 let $chatLog = $('#chat-log');
 
@@ -99,6 +101,8 @@ function generateNewChat() {
 // Opens the specified chat.
 function goToChat(chatInfo) {
     $('#chat-entry-' + chatInfo.chatId).addClass('active');
+    headerUserPhoto.attr('src', chatInfo.partnerPhoto);
+    headerPartnerName.text(chatInfo.partnerName);
 }
 
 // Generate a "random" name for a chat.
