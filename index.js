@@ -75,6 +75,10 @@ function storeUserInfo(userInfo) {
   }
 
   return new Promise((resolve, reject) => {
+    let sessionKey = getSessionKey(userInfo);
+    storage.set(sessionKey, {
+      chats: {}
+    });
     storage.set('userSessionInfo', userInfo, () => {
       resolve(true);
     });
@@ -83,7 +87,7 @@ function storeUserInfo(userInfo) {
 
 // Gives a "unique" key for storing/loading message/chat data.
 function getSessionKey(sessionInfo) {
-  sessionInfo.phoneCountryCode + sessionInfo.phoneNumber + sessionInfo.firstName + sessionInfo.lastName;
+  return sessionInfo.phoneCountryCode + sessionInfo.phoneNumber + sessionInfo.firstName + sessionInfo.lastName;
 }
 
 // Adding a chat to a key
@@ -91,7 +95,7 @@ ipcMain.on('addChat', (event, chatInfo) => {
   if (typeof chatInfo === 'string') {
     chatInfo = JSON.parse(chatInfo);
   }
-
+  console.log(chatInfo);
   // We can't add a chat to a session that doesn't exist, so check that.
   if (chatInfo.sessionInfo) {
     let sessionKey = getSessionKey(chatInfo.sessionInfo);
