@@ -162,6 +162,9 @@ function setFormContainerHeight() {
 // Slide the phone number form off to the left, slide
 // the phone code form in from the right.
 function goToPhoneCodeForm() {
+    // First, set phone number text displayed on form.
+    phoneNumberLabel.textContent = phoneCountryCodeInput.value + ' ' + prettifyPhoneNumber(phoneNumberInput.value);
+    // Then transition out old form/in new form.
     phoneNumberForm.classList.remove('active');
     phoneNumberForm.classList.add('filled');
     phoneCodeForm.classList.add('active');
@@ -201,4 +204,17 @@ async function storeUserSessionInformation() {
 // Navigate to the chat window.
 function goToChatPage() {
     window.location.href = 'chat.html';
+}
+
+// Adds hyphens to phone number.
+function prettifyPhoneNumber(phoneNumber) {
+    if (phoneNumber && typeof phoneNumber !== 'string') {
+        phoneNumber = String(phoneNumber);
+    }
+    // TODO re-validate the number here.
+    if (phoneNumber.length === 10) {
+        phoneNumber = phoneNumber.substr(0, 3) + '-' + phoneNumber.substr(3, 3) + '-' + phoneNumber.substr(6);
+    }
+    // TODO handle invalid number here.
+    return phoneNumber;
 }

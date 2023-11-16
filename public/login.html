@@ -15,12 +15,14 @@
             <form id="phone-number-form" class="active">
                 <fieldset>
                     <legend>What's your Phone Number?</legend>
-                    <input type="tel" class="phone-number-input" id="phone-number-input" name="phone-number" placeholder="Phone Number" pattern="[0-9]{3}[-]?[0-9]{3}[-]?[0-9]{4}" maxlength="10" required>
-                    <select id="phone-country-code-select" name="phone-country-code-select">
-                        <option value="usa" selected>+1</option>
-                        <option value="afghanistan">+93</option>
-                        <option value="albania">+355</option>
-                    </select>
+                    <div class="text-input-container">
+                        <input type="tel" class="phone-number-input" id="phone-number-input" name="phone-number" placeholder="Phone Number" pattern="[0-9]{3}[-]?[0-9]{3}[-]?[0-9]{4}" maxlength="10" required>
+                        <select id="phone-country-code-select" name="phone-country-code-select">
+                            <option value="+1" selected>+1</option>
+                            <option value="+93">+93</option>
+                            <option value="+355">+355</option>
+                        </select>
+                    </div>
                 </fieldset>
                 <input type="submit" id="phone-number-submit-button" value="Next" disabled>
             </form>
