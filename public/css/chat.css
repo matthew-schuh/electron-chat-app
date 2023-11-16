@@ -75,6 +75,9 @@ body {
     height: 18px;
     font-size: 14px;
     line-height: 18px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 .chat-entry--time {
     position: absolute;
@@ -110,31 +113,66 @@ body {
     height: calc(100% - 72px);
     display: flex;
     flex-wrap: wrap;
-    align-items: flex-end;
     flex-direction: column-reverse;
 }
 .chat-message {
     position: relative;
-    max-width: 536px;
+    max-width: 474px;
     font-family: 'SF Pro', sans-serif;
     font-size: 16px;
     line-height: 19px;
     text-align: left;
+    padding: 8px 62px 8px 16px;
+    border-radius: 12px;
+    margin: 8px 16px 0 16px;
 }
 
 .chat-message-user {
-
+    background-color: #0071ee;
+    color: white;
+    margin-left: auto;
 }
     
 .chat-message-other {
-    
+    background-color: #e5e5ea;
+    color: #1c1c1e;
+    margin-right: auto;
+}
+
+.chat-message > .time {
+    position: absolute;
+    bottom: 8px;
+    right: 16px;
+    font-size: 10px;
+    text-align: right;
+}
+
+.chat-message > .tail {
+    position: absolute;
+    bottom: 0;
+    left: -4px;
+    width: 11px;
+    height: 21px;
+    background-size: contain;
+    background-position: center;
+}
+
+.chat-message-user > .tail {
+    left: auto;
+    right: -4px;
+    background-image: url('../img/right tail.png');
+}
+
+.chat-message-other > .tail {
+    background-image: url('../img/left tail.png');
 }
 
 #chat-input {
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 100%;
+    width: calc(100% - 32px);
+    padding: 0 16px;
     height: 72px;
     display: flex;
     justify-content: space-between;
@@ -142,15 +180,31 @@ body {
 }
 #chat-input > input {
     position: relative;
-    width: 1000px;
+    width: 968px;
     height: 40px;
-    padding: 8px 16px;
     border-radius: 100px;
     background-color: #ebedef;
+    border: none;
+    padding: 0 16px;
+}
+#chat-input > input:focus-visible {
+    outline: none;
 }
 #chat-input > button {
-
+    width: 32px;
+    height: 32px;
+    line-height: 115%;
+    border-radius: 100%;
+    background-color: #0071ee;
+    text-align: center;
+    color: white;
+    opacity: 0.8;
+    transition: opacity 0.25s;
+    border: none;
+    font-size: 23px;
+    display: flex;
+    justify-content: center;
 }
 #chat-input > button:hover {
-
+    opacity: 1.0;
 }

@@ -9,7 +9,7 @@ contextBridge.exposeInMainWorld(
     "api", {
         send: (channel, data) => {
             // whitelist channels
-            let validChannels = ["toMain"];
+            let validChannels = ["addMessage", "addChat"];
             if (validChannels.includes(channel)) {
                 ipcRenderer.send(channel, data);
             }
@@ -22,7 +22,7 @@ contextBridge.exposeInMainWorld(
             }
         },
         invoke: (channel, data) => {
-            let validChannels = ["toMain"];
+            let validChannels = ["getChatData", "storeUserInfo"];
             if (validChannels.includes(channel)) {
                 ipcRenderer.invoke(channel, data);
             }

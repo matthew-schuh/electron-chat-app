@@ -20,7 +20,7 @@ app.on('ready', function() {
   // TODO size this based on device screen size. Allow user to configure, and store configured size.
   mainWindow = new BrowserWindow({
     width: 1440,
-    height: 784,
+    height: 800,
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
@@ -44,17 +44,17 @@ app.on('ready', function() {
   });
 });
 
-ipcMain.on('storeUserInfo', async (event, userInfo) => {
+ipcMain.handle('storeUserInfo', async (event, userInfo) => {
   await storeUserInfo(userInfo);
   return true;
 });
 
-ipcMain.on('getChatData', async (event, sessionInfo) => {
+ipcMain.handle('getChatData', async (event, sessionInfo) => {
   // Chats are keyed by phone number, first name, and last name.
   if (typeof sessionInfo === 'string') {
     sessionInfo = JSON.parse(sessionInfo);
   }
-  let sessionKey = sessionInfo.phoneCountryCode + sessionInfo.phoneNumber + sessionInfo.firstName + sessionInfo.lastName;
+  let sessionKey = getSessionKey(sessionInfo);
   let chatData = {
     chats: []
   };
@@ -80,3 +80,48 @@ function storeUserInfo(userInfo) {
     });
   });
 }
+
+// Gives a "unique" key for storing/loading message/chat data.
+function getSessionKey(sessionInfo) {
+  sessionInfo.phoneCountryCode + sessionInfo.phoneNumber + sessionInfo.firstName + sessionInfo.lastName;
+}
+
+// Adding a chat to a key
+ipcMain.on('addChat', (event, chatInfo) => {
+  if (typeof chatInfo === 'string') {
+    chatInfo = JSON.parse(chatInfo);
+  }
+
+  // We can't add a chat to a session that doesn't exist, so check that.
+  if (chatInfo.sessionInfo) {
+    let sessionKey = getSessionKey(chatInfo.sessionInfo);
+    if (storage.has(sessionKey)) {
+      let data = storage.getSync(sessionKey);
+      // TODO check if chat exists before adding it.
+      let chatData = chatInfo.data;
+      if (chatData) {
+        if (!data.chats[chatData.partnerName]) {
+          data.chats[chatData.partnerName] = chatData;
+          storage.set(sessionKey, data);
+        }
+      }
+    }
+  }
+});
+
+ipcMain.on('addMessage', (event, messageInfo) => {
+  if (typeof messageInfo === 'string') {
+    messageInfo = JSON.parse(messageInfo);
+  }
+
+  // We can't add a message to a session that doesn't exist, so check that.
+  if (messageInfo.sessionInfo) {
+    let sessionKey = getSessionKey(messageInfo.sessionInfo);
+    if (storage.has(sessionKey)) {
+      let data = storage.getSync(sessionKey);
+      if (messageInfo.partnerKey && data.chats[messageInfo.partnerKey]) {
+        data.chats[messageInfo.partnerKey].messages.push(messageInfo.data);
+      }
+    }
+  }
+});
