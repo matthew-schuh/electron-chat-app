@@ -56,7 +56,7 @@ ipcMain.handle('getChatData', async (event, sessionInfo) => {
   }
   let sessionKey = getSessionKey(sessionInfo);
   let chatData = {
-    chats: []
+    chats: {}
   };
   if (!storage.has(sessionKey)) {
     storage.set(sessionKey, chatData);
@@ -95,19 +95,21 @@ ipcMain.on('addChat', (event, chatInfo) => {
   if (typeof chatInfo === 'string') {
     chatInfo = JSON.parse(chatInfo);
   }
-  console.log(chatInfo);
   // We can't add a chat to a session that doesn't exist, so check that.
   if (chatInfo.sessionInfo) {
     let sessionKey = getSessionKey(chatInfo.sessionInfo);
-    if (storage.has(sessionKey)) {
-      let data = storage.getSync(sessionKey);
-      // TODO check if chat exists before adding it.
-      let chatData = chatInfo.data;
-      if (chatData) {
-        if (!data.chats[chatData.partnerName]) {
-          data.chats[chatData.partnerName] = chatData;
-          storage.set(sessionKey, data);
-        }
+    let data = {
+      chats: {}
+    };
+    if (hasSync(sessionKey)) {
+      data = storage.getSync(sessionKey);
+    }
+    // TODO check if chat exists before adding it.
+    let chatData = chatInfo.data;
+    if (chatData) {
+      if (!data.chats[chatData.partnerName]) {
+        data.chats[chatData.partnerName] = chatData;
+        storage.set(sessionKey, data);
       }
     }
   }
@@ -117,15 +119,32 @@ ipcMain.on('addMessage', (event, messageInfo) => {
   if (typeof messageInfo === 'string') {
     messageInfo = JSON.parse(messageInfo);
   }
-
+  // TODO truncate messages after some limit (e.g. store last 500 messages).
   // We can't add a message to a session that doesn't exist, so check that.
   if (messageInfo.sessionInfo) {
     let sessionKey = getSessionKey(messageInfo.sessionInfo);
-    if (storage.has(sessionKey)) {
+    if (hasSync(sessionKey)) {
       let data = storage.getSync(sessionKey);
       if (messageInfo.partnerKey && data.chats[messageInfo.partnerKey]) {
         data.chats[messageInfo.partnerKey].messages.push(messageInfo.data);
+        storage.set(sessionKey, data);
       }
     }
   }
 });
+
+async function hasSync(key) {
+  let found = await _hasSync(key);
+  return found;
+}
+
+async function _hasSync(key) {
+  return new Promise((resolve, reject) => {
+    storage.has(key, function(error, hasKey) {
+      if (error) {
+        reject(error);
+      }
+      resolve(hasKey);
+    });
+  });
+}

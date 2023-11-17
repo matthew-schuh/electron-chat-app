@@ -2,7 +2,6 @@ body {
     position: relative;
     width: 1440px;
     height: 784px;
-    overflow: hidden;
     margin: 0;
     font-family: 'SF Pro', sans-serif;
 }

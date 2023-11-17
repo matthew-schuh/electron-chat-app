@@ -18,7 +18,7 @@
 4. Add other country codes to phone number form select list.
 5. Use JSDoc or similar style comments and generate documentation.
 6. Support phone numbers in other formats, such as (xxx) xxx-xxxx and xxx-xxx-xxxx
-7. Better/more robust storage system.
+7. Better/more robust storage system (e.g. database, store individual messages instead of keeping in array, etc.).
 8. Add back button to form.
 9. Add "Didn't receive text?" option to resend text after x seconds.
 10. Better form layout (flex?).
